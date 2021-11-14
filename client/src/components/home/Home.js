@@ -71,8 +71,8 @@ function Home() {
           )}
       {user === null && (
         <div className="no-user-message">
-          <h2>Welcome to Snippet manager</h2>
-          <Link to="/register">Register here</Link>
+          <h2>Welcome to PF Planner</h2>
+          <Link to="/login">Login here</Link>
         </div>
       )}
     </div>

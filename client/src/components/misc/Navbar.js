@@ -16,12 +16,13 @@ function Navbar() {
   return (
     <div className="navbar">
       <Link to="/">
-        <h1 className="title">Snippet manager</h1>
+        <h1 className="title">PF Planner</h1>
       </Link>
       {user === null ? (
         <>
           <Link to="/login">Log in</Link>
-          <Link to="/register">Register</Link>
+          {/*           <Link to="/register">Register</Link>
+           */}{" "}
         </>
       ) : (
         user && (

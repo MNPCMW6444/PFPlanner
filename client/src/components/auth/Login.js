@@ -68,9 +68,11 @@ function Login() {
           Log in
         </button>
       </form>
-      <p>
-        Don't have an account yet? <Link to="/register">Register here.</Link>
-      </p>
+      {
+        <p style={{ direction: "rtl", textAlign: "left" }}>
+          פרטי ההתחברות רשומים בקבוצת ניהול - חפש בווטסאפ "פיאף ניהול בכתובתת"
+        </p>
+      }
     </div>
   );
 }

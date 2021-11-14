@@ -16,9 +16,9 @@ function Router() {
         <Route path="/login">
           <Login />
         </Route>
-        <Route path="/register">
+        {/*    <Route path="/register">
           <Register />
-        </Route>
+        </Route> */}
       </Switch>
     </BrowserRouter>
   );
