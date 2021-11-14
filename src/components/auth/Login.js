@@ -1,6 +1,6 @@
 import Axios from "axios";
 import React, { useContext, useState } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import UserContext from "../../context/UserContext";
 import domain from "../../util/domain";
 import ErrorMessage from "../misc/ErrorMessage";
