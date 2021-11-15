@@ -73,15 +73,7 @@ function SnippetEditor({ getSnippets, setSnippetEditorOpen, editSnippetData }) {
           onChange={(e) => setEditorTitle(e.target.value)}
         />
 
-        <label htmlFor="editor-description">Description</label>
-        <input
-          id="editor-description"
-          type="text"
-          value={editorDescription}
-          onChange={(e) => setEditorDescription(e.target.value)}
-        />
-
-        <label htmlFor="editor-code">Code</label>
+        <label htmlFor="editor-code">Description [optional]</label>
         <textarea
           id="editor-code"
           value={editorCode}

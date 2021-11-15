@@ -26,6 +26,13 @@ function Snippet({ snippet, getSnippets, editSnippet }) {
       <button className="btn-edit" onClick={() => editSnippet(snippet)}>
         Edit
       </button>
+      <button
+        className="btn-edit"
+        style={{ backgroundColor: "#11CC11" }}
+        onClick={() => null}
+      >
+        Add Sub
+      </button>
       <button className="btn-delete" onClick={deleteSnippet}>
         Delete
       </button>

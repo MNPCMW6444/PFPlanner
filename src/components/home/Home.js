@@ -54,7 +54,7 @@ function Home() {
           className="btn-editor-toggle"
           onClick={() => setSnippetEditorOpen(true)}
         >
-          Add snippet
+          Add a new Main Component
         </button>
       )}
       {snippetEditorOpen && (
@@ -66,9 +66,7 @@ function Home() {
       )}
       {snippets.length > 0
         ? renderSnippets()
-        : user && (
-            <p className="no-snippets-msg">No snippets have been added yet.</p>
-          )}
+        : user && <p className="no-snippets-msg">NO COMPONENTS YET :(</p>}
       {user === null && (
         <div className="no-user-message">
           <h2>Welcome to PF Planner</h2>
