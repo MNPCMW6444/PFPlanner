@@ -6,17 +6,11 @@ import domain from "../../util/domain";
 
 function SnippetEditor({ getSnippets, setSnippetEditorOpen, editSnippetData }) {
   const [editorTitle, setEditorTitle] = useState("");
-  const [editorDescription, setEditorDescription] = useState("");
-  const [editorCode, setEditorCode] = useState("");
   const [errorMessage, setErrorMessage] = useState(null);
 
   useEffect(() => {
     if (editSnippetData) {
       setEditorTitle(editSnippetData.title ? editSnippetData.title : "");
-      setEditorDescription(
-        editSnippetData.description ? editSnippetData.description : ""
-      );
-      setEditorCode(editSnippetData.code ? editSnippetData.code : "");
     }
   }, [editSnippetData]);
 
@@ -25,8 +19,6 @@ function SnippetEditor({ getSnippets, setSnippetEditorOpen, editSnippetData }) {
 
     const snippetData = {
       title: editorTitle ? editorTitle : undefined,
-      description: editorDescription ? editorDescription : undefined,
-      code: editorCode ? editorCode : undefined,
     };
 
     try {
@@ -51,8 +43,6 @@ function SnippetEditor({ getSnippets, setSnippetEditorOpen, editSnippetData }) {
 
   function closeEditor() {
     setSnippetEditorOpen(false);
-    setEditorCode("");
-    setEditorDescription("");
     setEditorTitle("");
   }
 
@@ -65,19 +55,12 @@ function SnippetEditor({ getSnippets, setSnippetEditorOpen, editSnippetData }) {
         />
       )}
       <form className="form" onSubmit={saveSnippet}>
-        <label htmlFor="editor-title">Title</label>
+        <label htmlFor="editor-title">Description:</label>
         <input
           id="editor-title"
           type="text"
           value={editorTitle}
           onChange={(e) => setEditorTitle(e.target.value)}
-        />
-
-        <label htmlFor="editor-code">Description [optional]</label>
-        <textarea
-          id="editor-code"
-          value={editorCode}
-          onChange={(e) => setEditorCode(e.target.value)}
         />
 
         <button className="btn-save" type="submit">

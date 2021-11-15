@@ -1,7 +1,5 @@
-/* export default process.env.NODE_ENV === "development"
+let enva = process.env.NODE_ENV;
+enva = "production"; // comment this by need
+export default enva === "development"
   ? "http://localhost:5000"
-  : process.env.NODE_ENV === "production" && "https://pfplanner.herokuapp.com/";
- */
-/* export default "https://localhost:5000";
- */
-export default "https://pfplanner.herokuapp.com";
+  : enva === "production" && "https://pfplanner.herokuapp.com";
