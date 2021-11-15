@@ -19,10 +19,15 @@ function SnippetEditor({ getSnippets, setSnippetEditorOpen, editSnippetData }) {
 
     const snippetData = {
       title: editorTitle ? editorTitle : undefined,
+      parent:
+        editSnippetData && editSnippetData.parent
+          ? editSnippetData.parent
+          : undefined,
     };
 
     try {
-      if (!editSnippetData) await Axios.post(`${domain}/snippet/`, snippetData);
+      if (!editSnippetData.title)
+        await Axios.post(`${domain}/snippet/`, snippetData);
       else
         await Axios.put(
           `${domain}/snippet/${editSnippetData._id}`,

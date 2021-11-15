@@ -9,6 +9,7 @@ import domain from "../../util/domain";
 
 function Home() {
   const [snippets, setSnippets] = useState([]);
+  const [edit, setEdit] = useState(false);
   const [snippetEditorOpen, setSnippetEditorOpen] = useState(false);
   const [editSnippetData, setEditSnippetData] = useState(null);
 
@@ -29,40 +30,74 @@ function Home() {
     setSnippetEditorOpen(true);
   }
 
+  function addsubSnippet(parent) {
+    setEditSnippetData({ title: undefined, parent: parent });
+    setSnippetEditorOpen(true);
+  }
+
   function renderSnippets() {
     let sortedSnippets = [...snippets];
     sortedSnippets = sortedSnippets.sort((a, b) => {
       return new Date(b.createdAt) - new Date(a.createdAt);
     });
 
+    function subf(parent) {
+      return function (snippet) {
+        return snippet.parent && snippet.parent === parent._id;
+      };
+    }
+
     return sortedSnippets.map((snippet, i) => {
       return (
-        <Snippet
-          key={i}
-          snippet={snippet}
-          getSnippets={getSnippets}
-          editSnippet={editSnippet}
-        />
+        !snippet.parent && (
+          <Snippet
+            key={i}
+            snippet={snippet}
+            getSnippets={getSnippets}
+            addsubSnippet={addsubSnippet}
+            editSnippet={editSnippet}
+            snippets={snippets}
+            subSnippets={snippets.filter(subf(snippet))}
+            edit={edit}
+          />
+        )
       );
     });
   }
 
   return (
     <div className="home">
-      {!snippetEditorOpen && user && (
+      <div className="editSwitch">
+        <p className="editogle">Edit: </p>
+        <label class="switch">
+          <input
+            type="checkbox"
+            edit={edit}
+            onChange={() => {
+              setEdit(!edit);
+            }}
+          ></input>
+          <span class="slider round"></span>
+        </label>
+      </div>
+      {!snippetEditorOpen && user && edit && (
         <button
           className="btn-editor-toggle"
+          style={{ backgroundColor: "#11CC11", color: "white" }}
           onClick={() => setSnippetEditorOpen(true)}
         >
           Add a new Main Component
         </button>
       )}
       {snippetEditorOpen && (
-        <SnippetEditor
-          setSnippetEditorOpen={setSnippetEditorOpen}
-          getSnippets={getSnippets}
-          editSnippetData={editSnippetData}
-        />
+        <>
+          <h2> !שים לב שכיום לא ניתן להציג תת-תת-תת משימות </h2>
+          <SnippetEditor
+            setSnippetEditorOpen={setSnippetEditorOpen}
+            getSnippets={getSnippets}
+            editSnippetData={editSnippetData}
+          />
+        </>
       )}
       {snippets.length > 0
         ? renderSnippets()
