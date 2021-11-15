@@ -17,7 +17,6 @@ function Snippet({
   async function deleteSnippet() {
     if (window.confirm("Do you want to delete this snippet?")) {
       await Axios.delete(`${domain}/snippet/${snippet._id}`);
-
       getSnippets();
     }
   }
@@ -26,13 +25,13 @@ function Snippet({
     if (
       window.confirm(checked ? "עחי? תבטוח שלא סיימת?" : "עחי? תבטוח שסיימת?")
     ) {
-      await Axios.put(`${domain}/snippet/check/${snippet._id}`, {
+      const sending = {
         done: !checked,
-      });
-
+      };
+      await Axios.put(`${domain}/snippet/check/${snippet._id}`, sending);
+      setChecked(!checked);
       getSnippets();
     }
-    setChecked(!checked);
   }
 
   function renderSubSnippets() {
@@ -66,13 +65,15 @@ function Snippet({
     <div className="snippet">
       {snippet.title && (
         <>
-          {edit && (
+          {edit ? (
             <input
               className="bigcb"
               type="checkbox"
               checked={checked}
               onChange={handlecheck}
             />
+          ) : (
+            <input className="bigcb" type="checkbox" checked={checked} />
           )}
           <h2 className="title">{"           " + snippet.title}</h2>
         </>
