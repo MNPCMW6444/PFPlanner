@@ -5,14 +5,20 @@ import "./Snippet.scss";
 
 function Snippet({
   snippet,
-  getSnippets,
   editSnippet,
   addsubSnippet,
   subSnippets,
-  snippets,
   edit,
+  setedit,
+  anycheckP,
+  anycheck,
+  getSnippets,
+  snippets,
+  waiting2,
 }) {
   const [checked, setChecked] = useState(snippet.done);
+  const [waiting, setWaiting] = useState(waiting2);
+  //const { user } = useContext(UserContext);
 
   async function deleteSnippet() {
     if (window.confirm("Do you want to delete this snippet?")) {
@@ -28,11 +34,21 @@ function Snippet({
       const sending = {
         done: !checked,
       };
+      setWaiting(true);
+      setedit(false);
       await Axios.put(`${domain}/snippet/check/${snippet._id}`, sending);
+      setedit(true);
+      setWaiting(false);
       setChecked(!checked);
       getSnippets();
+      //anycheckP(anycheck + 5);
     }
   }
+  /* 
+  useEffect(() => {
+    if (!user) setSnippets([]);
+    else getSnippets();
+  }, [user]); */
 
   function renderSubSnippets() {
     let sortedsubSnippets = [...subSnippets];
@@ -49,13 +65,18 @@ function Snippet({
     return sortedsubSnippets.map((snippet, i) => {
       return (
         <Snippet
-          key={i}
+          key={Math.round(Math.random(100000) * 100000)}
           snippet={snippet}
-          getSnippets={getSnippets}
           addsubSnippet={addsubSnippet}
           editSnippet={editSnippet}
           subSnippets={snippets && snippets.filter(subf(snippet))}
           edit={edit}
+          setedit={setedit}
+          anycheckP={anycheckP}
+          anycheck={anycheck}
+          getSnippets={getSnippets}
+          snippets={snippets}
+          waiting2={waiting2}
         />
       );
     });
@@ -70,12 +91,19 @@ function Snippet({
               className="bigcb"
               type="checkbox"
               checked={checked}
-              onChange={handlecheck}
+              onChange={async () => {
+                await handlecheck();
+              }}
             />
           ) : (
             <input className="bigcb" type="checkbox" checked={checked} />
           )}
-          <h2 className="title">{"           " + snippet.title}</h2>
+          <h2 className="title">{"           " + snippet.title}</h2>{" "}
+          {waiting && !edit && (
+            <h3 style={{ color: "red", direction: "rtl" }}>
+              לא לגעת בכלום אני מעבד את הוי סופית....
+            </h3>
+          )}
         </>
       )}
       {subSnippets && subSnippets.length > 0

@@ -26,7 +26,9 @@ function SnippetEditor({ getSnippets, setSnippetEditorOpen, editSnippetData }) {
     };
 
     try {
-      if (!editSnippetData.title)
+      console.log(editSnippetData);
+      console.log(snippetData);
+      if (!(editSnippetData && editSnippetData._id))
         await Axios.post(`${domain}/snippet/`, snippetData);
       else
         await Axios.put(
@@ -34,6 +36,7 @@ function SnippetEditor({ getSnippets, setSnippetEditorOpen, editSnippetData }) {
           snippetData
         );
     } catch (err) {
+      console.log(err);
       if (err.response) {
         if (err.response.data.errorMessage) {
           setErrorMessage(err.response.data.errorMessage);

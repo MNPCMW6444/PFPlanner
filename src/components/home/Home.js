@@ -12,13 +12,16 @@ function Home() {
   const [edit, setEdit] = useState(false);
   const [snippetEditorOpen, setSnippetEditorOpen] = useState(false);
   const [editSnippetData, setEditSnippetData] = useState(null);
+  const [anycheck, anycheckP] = useState(104);
+  const [waiting, setWaiting] = useState(false);
 
   const { user } = useContext(UserContext);
 
   useEffect(() => {
+    console.log(anycheck);
     if (!user) setSnippets([]);
     else getSnippets();
-  }, [user]);
+  }, [user, anycheck]);
 
   async function getSnippets() {
     const snippetsRes = await Axios.get(`${domain}/snippet/`);
@@ -51,7 +54,7 @@ function Home() {
       return (
         !snippet.parent && (
           <Snippet
-            key={i}
+            key={Math.round(Math.random(100000) * 100000)}
             snippet={snippet}
             getSnippets={getSnippets}
             addsubSnippet={addsubSnippet}
@@ -59,6 +62,10 @@ function Home() {
             snippets={snippets}
             subSnippets={snippets.filter(subf(snippet))}
             edit={edit}
+            setedit={setEdit}
+            anycheckP={anycheckP}
+            anycheck={anycheck}
+            waiting2={waiting}
           />
         )
       );
@@ -67,19 +74,22 @@ function Home() {
 
   return (
     <div className="home">
-      <div className="editSwitch">
-        <p className="editogle">Edit: </p>
-        <label class="switch">
-          <input
-            type="checkbox"
-            edit={edit}
-            onChange={() => {
-              setEdit(!edit);
-            }}
-          ></input>
-          <span class="slider round"></span>
-        </label>
-      </div>
+      {user && (
+        <div className="editSwitch">
+          <p className="editogle">Edit: </p>
+          <label class="switch">
+            <input
+              type="checkbox"
+              edit={edit}
+              onChange={() => {
+                setEdit(!edit);
+                setWaiting(!waiting);
+              }}
+            ></input>
+            <span class="slider round"></span>
+          </label>
+        </div>
+      )}
       {!snippetEditorOpen && user && edit && (
         <button
           className="btn-editor-toggle"
@@ -91,7 +101,7 @@ function Home() {
       )}
       {snippetEditorOpen && (
         <>
-          <h2> !שים לב שכיום לא ניתן להציג תת-תת-תת משימות </h2>
+          {/*<h2> !שים לב שכיום לא ניתן להציג תת-תת-תת משימות </h2>*/}
           <SnippetEditor
             setSnippetEditorOpen={setSnippetEditorOpen}
             getSnippets={getSnippets}
