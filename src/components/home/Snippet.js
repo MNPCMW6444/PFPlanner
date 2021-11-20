@@ -2,6 +2,7 @@ import Axios from "axios";
 import React, { useState } from "react";
 import domain from "../../util/domain";
 import "./Snippet.scss";
+import { Draggable } from "react-drag-reorder";
 
 function Snippet({
   snippet,
@@ -9,12 +10,13 @@ function Snippet({
   addsubSnippet,
   subSnippets,
   edit,
-  setedit,
   anycheckP,
   anycheck,
   getSnippets,
   snippets,
   waiting2,
+  keyorder,
+  setedit,
 }) {
   const [checked, setChecked] = useState(snippet.done);
   const [waiting, setWaiting] = useState(waiting2);
@@ -65,7 +67,7 @@ function Snippet({
     return sortedsubSnippets.map((snippet, i) => {
       return (
         <Snippet
-          key={Math.round(Math.random(100000) * 100000)}
+          key={i}
           snippet={snippet}
           addsubSnippet={addsubSnippet}
           editSnippet={editSnippet}
@@ -77,10 +79,15 @@ function Snippet({
           getSnippets={getSnippets}
           snippets={snippets}
           waiting2={waiting2}
+          keyorder={i}
         />
       );
     });
   }
+
+  const article = document.getElementById("10");
+
+  let a = article && article.id;
 
   return (
     <div className="snippet">
@@ -98,7 +105,14 @@ function Snippet({
           ) : (
             <input className="bigcb" type="checkbox" checked={checked} />
           )}
-          <h2 className="title">{"           " + snippet.title}</h2>{" "}
+          <h2 className="title">
+            {"           " +
+              snippet.title +
+              ", KEY IS: " +
+              keyorder +
+              ", AND:" +
+              a}
+          </h2>{" "}
           {waiting && !edit && (
             <h3 style={{ color: "red", direction: "rtl" }}>
               לא לגעת בכלום אני מעבד את הוי סופית....
@@ -106,9 +120,11 @@ function Snippet({
           )}
         </>
       )}
-      {subSnippets && subSnippets.length > 0
-        ? renderSubSnippets()
-        : edit && <p className="no-snippets-msg">NO SUB-COMPONENTS YET :(</p>}
+      {subSnippets && subSnippets.length > 0 ? (
+        <Draggable>{renderSubSnippets()}</Draggable>
+      ) : (
+        edit && <p className="no-snippets-msg">NO SUB-COMPONENTS YET :(</p>
+      )}
       {edit && (
         <>
           <button className="btn-edit" onClick={() => editSnippet(snippet)}>

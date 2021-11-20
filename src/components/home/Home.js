@@ -6,6 +6,7 @@ import "./Home.scss";
 import UserContext from "../../context/UserContext";
 import { Link } from "react-router-dom";
 import domain from "../../util/domain";
+import { Draggable } from "react-drag-reorder";
 
 function Home() {
   const [snippets, setSnippets] = useState([]);
@@ -54,7 +55,7 @@ function Home() {
       return (
         !snippet.parent && (
           <Snippet
-            key={Math.round(Math.random(100000) * 100000)}
+            key={i}
             snippet={snippet}
             getSnippets={getSnippets}
             addsubSnippet={addsubSnippet}
@@ -66,6 +67,7 @@ function Home() {
             anycheckP={anycheckP}
             anycheck={anycheck}
             waiting2={waiting}
+            keyorder={i}
           />
         )
       );
@@ -109,9 +111,11 @@ function Home() {
           />
         </>
       )}
-      {snippets.length > 0
-        ? renderSnippets()
-        : user && <p className="no-snippets-msg">NO COMPONENTS YET :(</p>}
+      {snippets.length > 0 ? (
+        <Draggable>{renderSnippets()}</Draggable>
+      ) : (
+        user && <p className="no-snippets-msg">NO COMPONENTS YET :(</p>
+      )}
       {user === null && (
         <div className="no-user-message">
           <h2>Welcome to PF Planner</h2>
