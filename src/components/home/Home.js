@@ -6,7 +6,6 @@ import "./Home.scss";
 import UserContext from "../../context/UserContext";
 import { Link } from "react-router-dom";
 import domain from "../../util/domain";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 function Home() {
   const [snippets, setSnippets] = useState([]);
@@ -55,7 +54,7 @@ function Home() {
       return (
         !snippet.parent && (
           <Snippet
-            key={i}
+            key={Math.round(Math.random(100000) * 100000)}
             snippet={snippet}
             getSnippets={getSnippets}
             addsubSnippet={addsubSnippet}

@@ -2,7 +2,6 @@ import Axios from "axios";
 import React, { useState } from "react";
 import domain from "../../util/domain";
 import "./Snippet.scss";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 function Snippet({
   snippet,
@@ -10,13 +9,12 @@ function Snippet({
   addsubSnippet,
   subSnippets,
   edit,
+  setedit,
   anycheckP,
   anycheck,
   getSnippets,
   snippets,
   waiting2,
-  keyorder,
-  setedit,
 }) {
   const [checked, setChecked] = useState(snippet.done);
   const [waiting, setWaiting] = useState(waiting2);
@@ -66,37 +64,20 @@ function Snippet({
 
     return sortedsubSnippets.map((snippet, i) => {
       return (
-        <DragDropContext onDragEnd={handleOnDragEnd}>
-          <Droppable droppableId="characters">
-            {(provided) => (
-              <ul
-                className="characters"
-                {...provided.droppableProps}
-                ref={provided.innerRef}
-              >
-                {characters.map(({ id, name, thumb }, index) => {
-                  return (
-                    <Draggable key={id} draggableId={id} index={index}>
-                      {(provided) => (
-                        <li
-                          ref={provided.innerRef}
-                          {...provided.draggableProps}
-                          {...provided.dragHandleProps}
-                        >
-                          <div className="characters-thumb">
-                            <img src={thumb} alt={`${name} Thumb`} />
-                          </div>
-                          <p>{name}</p>
-                        </li>
-                      )}
-                    </Draggable>
-                  );
-                })}
-                {provided.placeholder}
-              </ul>
-            )}
-          </Droppable>
-        </DragDropContext>
+        <Snippet
+          key={Math.round(Math.random(100000) * 100000)}
+          snippet={snippet}
+          addsubSnippet={addsubSnippet}
+          editSnippet={editSnippet}
+          subSnippets={snippets && snippets.filter(subf(snippet))}
+          edit={edit}
+          setedit={setedit}
+          anycheckP={anycheckP}
+          anycheck={anycheck}
+          getSnippets={getSnippets}
+          snippets={snippets}
+          waiting2={waiting2}
+        />
       );
     });
   }
