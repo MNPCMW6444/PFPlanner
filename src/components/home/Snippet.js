@@ -2,7 +2,7 @@ import Axios from "axios";
 import React, { useState } from "react";
 import domain from "../../util/domain";
 import "./Snippet.scss";
-import { Draggable } from "react-drag-reorder";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 function Snippet({
   snippet,
@@ -66,28 +66,40 @@ function Snippet({
 
     return sortedsubSnippets.map((snippet, i) => {
       return (
-        <Snippet
-          key={i}
-          snippet={snippet}
-          addsubSnippet={addsubSnippet}
-          editSnippet={editSnippet}
-          subSnippets={snippets && snippets.filter(subf(snippet))}
-          edit={edit}
-          setedit={setedit}
-          anycheckP={anycheckP}
-          anycheck={anycheck}
-          getSnippets={getSnippets}
-          snippets={snippets}
-          waiting2={waiting2}
-          keyorder={i}
-        />
+        <DragDropContext onDragEnd={handleOnDragEnd}>
+          <Droppable droppableId="characters">
+            {(provided) => (
+              <ul
+                className="characters"
+                {...provided.droppableProps}
+                ref={provided.innerRef}
+              >
+                {characters.map(({ id, name, thumb }, index) => {
+                  return (
+                    <Draggable key={id} draggableId={id} index={index}>
+                      {(provided) => (
+                        <li
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
+                        >
+                          <div className="characters-thumb">
+                            <img src={thumb} alt={`${name} Thumb`} />
+                          </div>
+                          <p>{name}</p>
+                        </li>
+                      )}
+                    </Draggable>
+                  );
+                })}
+                {provided.placeholder}
+              </ul>
+            )}
+          </Droppable>
+        </DragDropContext>
       );
     });
   }
-
-  const article = document.getElementById("10");
-
-  let a = article && article.id;
 
   return (
     <div className="snippet">
@@ -105,14 +117,7 @@ function Snippet({
           ) : (
             <input className="bigcb" type="checkbox" checked={checked} />
           )}
-          <h2 className="title">
-            {"           " +
-              snippet.title +
-              ", KEY IS: " +
-              keyorder +
-              ", AND:" +
-              a}
-          </h2>{" "}
+          <h2 className="title">{"           " + snippet.title}</h2>{" "}
           {waiting && !edit && (
             <h3 style={{ color: "red", direction: "rtl" }}>
               לא לגעת בכלום אני מעבד את הוי סופית....
@@ -120,11 +125,9 @@ function Snippet({
           )}
         </>
       )}
-      {subSnippets && subSnippets.length > 0 ? (
-        <Draggable>{renderSubSnippets()}</Draggable>
-      ) : (
-        edit && <p className="no-snippets-msg">NO SUB-COMPONENTS YET :(</p>
-      )}
+      {subSnippets && subSnippets.length > 0
+        ? renderSubSnippets()
+        : edit && <p className="no-snippets-msg">NO SUB-COMPONENTS YET :(</p>}
       {edit && (
         <>
           <button className="btn-edit" onClick={() => editSnippet(snippet)}>
