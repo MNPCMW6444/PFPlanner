@@ -2,6 +2,7 @@ import Axios from "axios";
 import React, { useState } from "react";
 import domain from "../../util/domain";
 import "./Snippet.scss";
+import { Draggable } from "react-beautiful-dnd";
 
 function Snippet({
   snippet,
@@ -61,6 +62,34 @@ function Snippet({
         return snippet.parent && snippet.parent === parent._id;
       };
     }
+
+    /* return sortedsubSnippets.map((snippet, i, index) => {
+      return (
+        <Draggable key={i} draggableId={"i" + i} index={i}>
+          {(provided) => (
+            <li
+              ref={provided.innerRef}
+              {...provided.draggableProps}
+              {...provided.dragHandleProps}
+            >
+              <Snippet
+                snippet={snippet}
+                addsubSnippet={addsubSnippet}
+                editSnippet={editSnippet}
+                subSnippets={snippets && snippets.filter(subf(snippet))}
+                edit={edit}
+                setedit={setedit}
+                anycheckP={anycheckP}
+                anycheck={anycheck}
+                getSnippets={getSnippets}
+                snippets={snippets}
+                waiting2={waiting2}
+              />
+            </li>
+          )}
+        </Draggable>
+      );
+    });*/
 
     return sortedsubSnippets.map((snippet, i) => {
       return (
