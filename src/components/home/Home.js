@@ -86,7 +86,6 @@ function Home() {
 
   async function saveOrderChanges() {
     setSaving(true);
-    debugger;
 
     let needssavingtoDB = [];
     let ordered3 = ordered;
@@ -97,8 +96,8 @@ function Home() {
     }
 
     for (let i = 0; i < needssavingtoDB.length; i++) {
-      await Axios.put(`${domain}/snippetO/${needssavingtoDB[i].id}`, {
-        newOrder: needssavingtoDB[i].newOrder,
+      await Axios.put(`${domain}/snippet/o/${needssavingtoDB[i].id}`, {
+        newOrder: parseInt(needssavingtoDB[i].newOrder),
       });
     }
 
