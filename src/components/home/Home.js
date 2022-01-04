@@ -101,6 +101,7 @@ function Home() {
       });
     }
 
+    setoordered(ordered);
     setSaving(false);
     setSavable(false);
   }
